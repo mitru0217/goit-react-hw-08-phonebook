@@ -1,96 +1,66 @@
-/* eslint-disable no-lone-blocks */
-import React, { Component } from 'react';
+import React, { useState } from 'react';
+
 import { nanoid } from 'nanoid';
+import { useLocalStorage } from '../Hooks/hooks';
 import './App.css';
 import ContactForm from '../ContactForm';
 import ContactsList from '../ContactsList';
 import Filter from '../Filter';
 
-class App extends Component {
-  state = {
-    contacts: [
-      { id: nanoid(10), name: 'Rosie Simpson', number: '459-12-56' },
-      { id: nanoid(10), name: 'Hermione Kline', number: '443-89-12' },
-      { id: nanoid(10), name: 'Eden Clements', number: '645-17-79' },
-      { id: nanoid(10), name: 'Annie Copeland', number: '227-91-26' },
-    ],
+const initialContacts = [
+  { id: nanoid(10), name: 'Rosie Simpson', number: '459-12-56' },
+  { id: nanoid(10), name: 'Hermione Kline', number: '443-89-12' },
+  { id: nanoid(10), name: 'Eden Clements', number: '645-17-79' },
+  { id: nanoid(10), name: 'Annie Copeland', number: '227-91-26' },
+];
 
-    filter: '',
-  };
+function App() {
+  const [contacts, setContacts] = useLocalStorage('contacts', initialContacts);
+  const [filter, setfilter] = useState('');
 
-  addContacts = data => {
+  const addContacts = data => {
     const contactNew = {
       id: nanoid(10),
       name: data.name,
       number: data.number,
     };
-    const findNameIndex = this.state.contacts.findIndex(
+
+    const findNameIndex = contacts.findIndex(
       contact => contact.name === contactNew.name
     );
 
     if (findNameIndex < 0) {
-      return this.setState(({ contacts }) => ({
-        contacts: [contactNew, ...contacts],
-      }));
+      return setContacts(contacts => [contactNew, ...contacts]);
     }
     return alert(`${contactNew.name} is already in contacts`);
   };
 
-  changeFilter = e => {
-    this.setState({ filter: e.target.value });
+  const changeFilter = e => {
+    setfilter(e.target.value);
   };
 
-  setContacts = () => {
-    this.setState({ contacts: this.formSubmitHandler });
+  const visibleContacts = contacts.filter(contact =>
+    contact.name.toLowerCase().includes(filter.toLowerCase())
+  );
+
+  const deleteContact = contactId => {
+    setContacts(contacts.filter(contact => contact.id !== contactId));
   };
-
-  getSavedNames = () => {
-    const { contacts, filter } = this.state;
-    const normalizedFilter = filter.toLowerCase();
-    return contacts.filter(contact =>
-      contact.name.toLowerCase().includes(normalizedFilter)
-    );
-  };
-
-  deleteContact = contactId => {
-    this.setState(prevState => ({
-      contacts: prevState.contacts.filter(contact => contact.id !== contactId),
-    }));
-  };
-
-  componentDidMount() {
-    const contacts = localStorage.getItem('contacts');
-    const parsedContacts = JSON.parse(contacts);
-    if (parsedContacts) {
-      this.setState(prevState => ({
-        contacts: (prevState.contacts = parsedContacts),
-      }));
-    }
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    if (this.state.contacts !== prevState.contacts) {
-      localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
-    }
-  }
-  render() {
-    const { filter } = this.state;
-
-    const filteredName = this.getSavedNames();
-    return (
-      <div className="Container">
-        <h1>Phonebook</h1>
-        <ContactForm onSubmit={this.addContacts} />
-        <h2>Contacts</h2>
-        <Filter value={filter} onChange={this.changeFilter} />
-
-        <ContactsList
-          contacts={filteredName}
-          onDeleteContact={this.deleteContact}
-        />
-      </div>
-    );
-  }
+  return (
+    <div className="Container">
+      <h1>Phonebook</h1>
+      <ContactForm onSubmit={addContacts} />
+      <h2>Contacts</h2>
+      <Filter value={filter} onChange={changeFilter} />
+      <ContactsList
+        contacts={visibleContacts}
+        onDeleteContact={deleteContact}
+      />
+      {contacts.length === 0 && (
+        <span className="Message">Сontact list is empty </span>
+      )}
+    </div>
+  );
 }
 
 export default App;

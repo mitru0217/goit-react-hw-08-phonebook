@@ -10,3 +10,9 @@ h2 {
     padding: 0;
     margin-top: 15px;
 }
+.Message{
+    font-size: large;
+    font-weight: bold;
+    color: rgb(249, 28, 28);
+    margin-top: 50px;
+}
