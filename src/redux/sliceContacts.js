@@ -1,13 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { fetchContacts, addContact, deleteContact } from './operations';
-// import { nanoid } from 'nanoid';
-
-// const initialContacts = [
-//   { id: nanoid(10), name: 'Rosie Simpson', number: '459-12-56' },
-//   { id: nanoid(10), name: 'Hermione Kline', number: '443-89-12' },
-//   { id: nanoid(10), name: 'Eden Clements', number: '645-17-79' },
-//   { id: nanoid(10), name: 'Annie Copeland', number: '227-91-26' },
-// ];
 
 export const contactsSlice = createSlice({
   name: 'contacts',
@@ -43,7 +35,7 @@ export const contactsSlice = createSlice({
       state.error = null;
       state.contacts.push({
         name: action.payload.name,
-        number: action.payload.number,
+        phone: action.payload.phone,
       });
     },
     [addContact.rejected]: (state, action) => {
@@ -57,7 +49,7 @@ export const contactsSlice = createSlice({
       state.isLoading = false;
       state.error = null;
       const index = state.contacts.findIndex(
-        contact => contact.id === action.payload.id
+        contact => contact.id === action.payload
       );
       state.contacts.splice(index, 1);
     },

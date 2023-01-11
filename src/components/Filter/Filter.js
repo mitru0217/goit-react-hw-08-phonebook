@@ -1,6 +1,11 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { changeFilter } from 'redux/sliceFilter';
+import {
+  FilterWraper,
+  InputForm,
+  LabelFilter,
+} from 'components/Filter/Filter.styled';
 
 const Filter = () => {
   const dispatch = useDispatch();
@@ -11,10 +16,10 @@ const Filter = () => {
   };
 
   return (
-    <label>
-      Find contacts by name
-      <input type="text" name="filter" onChange={hanleChangeFilter} />
-    </label>
+    <FilterWraper>
+      <LabelFilter htmlFor="filter">Find contacts by name</LabelFilter>
+      <InputForm type="text" name="filter" onChange={hanleChangeFilter} />
+    </FilterWraper>
   );
 };
 

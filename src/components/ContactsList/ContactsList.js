@@ -1,13 +1,17 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchContacts, deleteContact } from 'redux/operations';
+import { fetchContacts } from 'redux/operations';
 import {
   getFilter,
   getContacts,
   getIsLoading,
   getError,
 } from 'redux/selectors';
-import './Contacts.css';
+import {
+  TitleList,
+  ContactList,
+} from 'components/ContactsList/ContactsList.styled';
+import { Contact } from 'components/Contact/Contact';
 
 const ContactsList = () => {
   const dispatch = useDispatch();
@@ -25,32 +29,20 @@ const ContactsList = () => {
   const visibleContacts = contacts.filter(contact =>
     contact.name.toLowerCase().includes(filter.toLowerCase().trim())
   );
-  console.log(visibleContacts);
-  const handleDelete = () => dispatch(deleteContact(contacts.id));
+  // const handleDelete = () => dispatch(deleteContact(contacts.id));
 
   return (
     <>
-      {/* {isLoading && !error && <b>Request in progress...</b>} */}
-      {isLoading && (
-        <ul className="ContactList">
-          {visibleContacts.map(({ id, name, number }) => (
-            <li key={id} className="ContactsItem">
-              <p className="Info">{name}:</p>
-              <p className="Info">{number}</p>
-              <button
-                className="DeleteBtn"
-                onClick={() => dispatch(handleDelete(id))}
-              >
-                Delete
-              </button>
-            </li>
-          ))}
-          {visibleContacts.length === 0 && (
-            <span className="Message">Сontact list is empty </span>
-          )}
-        </ul>
-      )}
-
+      {isLoading && !error && <b>Request in progress...</b>}
+      <TitleList>Contacts</TitleList>
+      <ContactList>
+        {visibleContacts.map(({ id, name, phone }) => (
+          <Contact key={id} id={id} name={name} phone={phone} />
+        ))}
+        {visibleContacts.length === 0 && (
+          <span className="Message">Сontact list is empty </span>
+        )}
+      </ContactList>
       {error && <p>Not found</p>}
     </>
   );
