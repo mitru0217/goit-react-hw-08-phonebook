@@ -1,17 +1,15 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getContacts } from '../../redux/selectors';
-import { addContact } from 'redux/sliceContacts';
+import { addContact } from 'redux/operations';
 import './ContactForm.css';
-import { nanoid } from 'nanoid';
 
 export default function ContactForm() {
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
-  const nameInputId = nanoid(10);
-  const numberInputId = nanoid(10);
 
   const contacts = useSelector(getContacts);
+  const dispatch = useDispatch();
 
   const handleChange = e => {
     const { name, value } = e.target;
@@ -28,15 +26,14 @@ export default function ContactForm() {
     }
   };
 
-  const dispatch = useDispatch();
-
-  const addContacts = e => {
+  const handleSubmit = e => {
     e.preventDefault();
     const contactNew = {
-      id: nanoid(10),
       name: name,
       number: number,
     };
+    console.log(contactNew);
+
     const findNameIndex = contacts.findIndex(
       contact => contact.name === contactNew.name
     );
@@ -45,7 +42,7 @@ export default function ContactForm() {
     } else {
       alert(`${contactNew.name} is already in contacts`);
     }
-
+    console.log(findNameIndex);
     reset();
   };
   const reset = () => {
@@ -54,8 +51,8 @@ export default function ContactForm() {
   };
 
   return (
-    <form onSubmit={addContacts} className="ContactsForm">
-      <label htmlFor={nameInputId}>
+    <form onSubmit={handleSubmit} className="ContactsForm">
+      <label>
         Name
         <input
           className="ContactsInput"
@@ -66,11 +63,10 @@ export default function ContactForm() {
           title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
           required
           onChange={handleChange}
-          id={nameInputId}
         />
       </label>
 
-      <label htmlFor={numberInputId}>
+      <label>
         Number
         <input
           className="ContactsInput"
@@ -81,7 +77,6 @@ export default function ContactForm() {
           title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
           required
           onChange={handleChange}
-          id={numberInputId}
         />
       </label>
 

@@ -1,37 +1,58 @@
-import React from 'react';
-import { nanoid } from 'nanoid';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getContacts, getFilter } from '../../redux/selectors';
-import { removeContact } from 'redux/sliceContacts';
+import { fetchContacts, deleteContact } from 'redux/operations';
+import {
+  getFilter,
+  getContacts,
+  getIsLoading,
+  getError,
+} from 'redux/selectors';
 import './Contacts.css';
 
 const ContactsList = () => {
-  const contacts = useSelector(getContacts);
-  const filter = useSelector(getFilter);
   const dispatch = useDispatch();
+  const filter = useSelector(getFilter);
+  const contacts = useSelector(getContacts);
+  const isLoading = useSelector(getIsLoading);
+  const error = useSelector(getError);
+  console.log(contacts);
+
+  // Вызываем операцию
+  useEffect(() => {
+    dispatch(fetchContacts());
+  }, [dispatch]);
 
   const visibleContacts = contacts.filter(contact =>
-    contact.name.toLowerCase().includes(filter.toLowerCase())
+    contact.name.toLowerCase().includes(filter.toLowerCase().trim())
   );
+  console.log(visibleContacts);
+  const handleDelete = () => dispatch(deleteContact(contacts.id));
 
   return (
-    <ul className="ContactList">
-      {visibleContacts.map(contact => (
-        <li key={nanoid(10)} className="ContactsItem">
-          <p className="Info">{contact.name}:</p>
-          <p className="Info">{contact.number}</p>
-          <button
-            className="DeleteBtn"
-            onClick={() => dispatch(removeContact(contact.id))}
-          >
-            Delete
-          </button>
-        </li>
-      ))}
-      {visibleContacts.length === 0 && (
-        <span className="Message">Сontact list is empty </span>
+    <>
+      {/* {isLoading && !error && <b>Request in progress...</b>} */}
+      {isLoading && (
+        <ul className="ContactList">
+          {visibleContacts.map(({ id, name, number }) => (
+            <li key={id} className="ContactsItem">
+              <p className="Info">{name}:</p>
+              <p className="Info">{number}</p>
+              <button
+                className="DeleteBtn"
+                onClick={() => dispatch(handleDelete(id))}
+              >
+                Delete
+              </button>
+            </li>
+          ))}
+          {visibleContacts.length === 0 && (
+            <span className="Message">Сontact list is empty </span>
+          )}
+        </ul>
       )}
-    </ul>
+
+      {error && <p>Not found</p>}
+    </>
   );
 };
 
