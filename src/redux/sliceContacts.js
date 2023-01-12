@@ -36,6 +36,7 @@ export const contactsSlice = createSlice({
       state.contacts.push({
         name: action.payload.name,
         phone: action.payload.phone,
+        id: action.payload.id,
       });
     },
     [addContact.rejected]: (state, action) => {
@@ -49,7 +50,7 @@ export const contactsSlice = createSlice({
       state.isLoading = false;
       state.error = null;
       const index = state.contacts.findIndex(
-        contact => contact.id === action.payload
+        contact => contact.id === action.payload.id
       );
       state.contacts.splice(index, 1);
     },
