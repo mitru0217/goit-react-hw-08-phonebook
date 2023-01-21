@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { changeFilter } from 'redux/sliceFilter';
+import { changeFilter } from 'redux/Filter/sliceFilter';
 import {
   FilterWraper,
   InputForm,
@@ -13,6 +13,7 @@ const Filter = () => {
   const hanleChangeFilter = e => {
     const query = e.target.value;
     dispatch(changeFilter(query));
+    console.log(query);
   };
 
   return (

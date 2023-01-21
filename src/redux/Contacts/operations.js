@@ -1,9 +1,7 @@
 import axios from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
-axios.defaults.baseURL =
-  'https://63bc7f8afa38d30d85c9a93c.mockapi.io/contacts/';
-
+axios.defaults.baseURL = 'https://connections-api.herokuapp.com';
 export const fetchContacts = createAsyncThunk(
   'contacts/fetchContacts',
   // Используем символ подчеркивания как имя первого параметра,
@@ -24,9 +22,9 @@ export const fetchContacts = createAsyncThunk(
 // Операция добавления контакта
 export const addContact = createAsyncThunk(
   'contacts/addContact',
-  async ({ name, number }, thunkAPI) => {
+  async ({ name, number, id }, thunkAPI) => {
     try {
-      const contact = await axios.post('/contacts', { name, number });
+      const contact = await axios.post('/contacts', { name, number, id });
       return contact.data;
     } catch (e) {
       return thunkAPI.rejectWithValue(e.message);

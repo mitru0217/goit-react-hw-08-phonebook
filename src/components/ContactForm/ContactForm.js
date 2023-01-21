@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
+import toast from 'react-hot-toast';
 import { useDispatch, useSelector } from 'react-redux';
-import { getContacts } from '../../redux/selectors';
-import { addContact } from 'redux/operations';
+import { getContacts } from '../../redux/Contacts/selectors';
+import { addContact } from 'redux/Contacts/operations';
 import {
   ContactsForm,
   LabelInput,
@@ -10,13 +11,17 @@ import {
   ContactsInput,
   ContactsBtn,
 } from 'components/ContactForm/ContactForm.styled';
-import { BsFillPersonFill, BsFillTelephoneFill } from 'react-icons/bs';
-// import { FaSearch } from 'react-icons/fa';
+import {
+  BsFillPersonFill,
+  BsFillTelephoneFill,
+  // BsPhoneLandscape,
+} from 'react-icons/bs';
+
 export default function ContactForm() {
   const [name, setName] = useState('');
-  const [phone, setPhone] = useState('');
+  const [number, setNumber] = useState('');
 
-  const contacts = useSelector(getContacts);
+  const { contacts } = useSelector(getContacts);
   const dispatch = useDispatch();
 
   const handleChange = e => {
@@ -26,8 +31,8 @@ export default function ContactForm() {
       case 'name':
         setName(value);
         break;
-      case 'phone':
-        setPhone(value);
+      case 'number':
+        setNumber(value);
         break;
       default:
         return;
@@ -38,7 +43,7 @@ export default function ContactForm() {
     e.preventDefault();
     const contactNew = {
       name: name,
-      phone: phone,
+      number: number,
     };
 
     const findNameIndex = contacts.findIndex(
@@ -46,14 +51,17 @@ export default function ContactForm() {
     );
     if (findNameIndex < 0) {
       dispatch(addContact(contactNew));
+      toast.success(`${contactNew.name} added to contacts`, { duration: 500 });
     } else {
-      alert(`${contactNew.name} is already in contacts`);
+      toast.error(`${contactNew.name} is already in contacts`, {
+        duration: 2000,
+      });
     }
     reset();
   };
   const reset = () => {
     setName('');
-    setPhone('');
+    setNumber('');
   };
 
   return (
@@ -86,8 +94,8 @@ export default function ContactForm() {
           <ContactsInput
             className="ContactsInput"
             type="tel"
-            name="phone"
-            value={phone}
+            name="number"
+            value={number}
             pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
             title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
             required
