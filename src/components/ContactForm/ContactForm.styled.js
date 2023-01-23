@@ -2,32 +2,30 @@ import styled from 'styled-components';
 
 export const ContactsForm = styled.form`
   display: flex;
-  flex-direction: column;
   align-items: center;
+  justify-content: space-evenly;
   padding: 30px;
-  width: 400px;
+  width: 850px;
   height: auto;
   margin-bottom: 30px;
-  border: 1px solid teal;
-  background: rgb(184, 201, 201);
 `;
 export const Thumb = styled.div`
-display:flex;
-height:25px;
-margin-bottom:15px;
-`
+  display: flex;
+  height: 25px;
+  margin-bottom: 15px;
+`;
 export const Icon = styled.div`
-display:flex;
-align-items: center;
-height:27px;
-width: 30px;
-padding-left: 5px;
-margin-top: 10px;
+  display: flex;
+  align-items: center;
+  height: 27px;
+  width: 30px;
+  padding-left: 5px;
+  margin-top: 10px;
 
-background-color:white;
-`
+  background-color: white;
+`;
 export const ContactsInput = styled.input`
-  width:170px;
+  width: 170px;
   height: 25px;
   padding-left: 10px;
   margin: 0 auto;
@@ -36,8 +34,7 @@ export const ContactsInput = styled.input`
   border: none;
 `;
 export const LabelInput = styled.label`
-  width:174px;
-  
+  width: 174px;
 `;
 
 export const ContactsBtn = styled.button`

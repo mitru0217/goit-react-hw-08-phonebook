@@ -5,8 +5,8 @@ import {
   Info,
   Name,
   Phone,
-  DeleteBtn,
 } from 'components/Contact/Contact.styled';
+import { Button } from '@mui/material';
 
 export const Contact = ({ id, name, number }) => {
   const dispatch = useDispatch();
@@ -16,9 +16,14 @@ export const Contact = ({ id, name, number }) => {
         <Name>{name}:</Name>
         <Phone>{number}</Phone>
       </Info>
-      <DeleteBtn type="button" onClick={() => dispatch(deleteContact(id))}>
+      <Button
+        size="small"
+        type="button"
+        variant="contained"
+        onClick={() => dispatch(deleteContact(id))}
+      >
         Delete
-      </DeleteBtn>
+      </Button>
     </ContactItem>
   );
 };

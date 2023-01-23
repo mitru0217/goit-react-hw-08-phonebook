@@ -11,9 +11,6 @@ import { Layout } from 'components/Layout/Layout';
 const HomePage = lazy(() => import('../../pages/Home'));
 const RegisterPage = lazy(() => import('../../pages/Register'));
 const LoginPage = lazy(() => import('../../pages/Login'));
-// const Personalization = lazy(() =>
-//   import('../../components/Personalization/personalization')
-// );
 const ContactsPage = lazy(() => import('../../pages/Contacts/Contacts'));
 
 export const App = () => {

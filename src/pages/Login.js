@@ -32,7 +32,7 @@ export default function Login() {
           }}
         >
           <Box
-            component="form"
+        
             position="absolute"
             sx={{
               top: '20%',

@@ -1,12 +1,20 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { logOut } from 'redux/Auth/operations';
+
+const filterinitialState = { value: '' };
 
 export const filterSlice = createSlice({
   name: 'filter',
-  initialState: '',
+  initialState: filterinitialState,
   reducers: {
     changeFilter(_, action) {
       return action.payload;
     },
+  },
+  extraReducers: builder => {
+    builder.addCase(logOut.fulfilled, state => {
+      state.initialState = '';
+    });
   },
 });
 

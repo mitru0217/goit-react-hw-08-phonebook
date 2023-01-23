@@ -1,26 +1,42 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { changeFilter } from 'redux/Filter/sliceFilter';
-import {
-  FilterWraper,
-  InputForm,
-  LabelFilter,
-} from 'components/Filter/Filter.styled';
+import { Typography, TextField, Box } from '@mui/material';
+import PersonSearchIcon from '@mui/icons-material/PersonSearch';
 
 const Filter = () => {
   const dispatch = useDispatch();
 
-  const hanleChangeFilter = e => {
+  const handleChangeFilter = e => {
     const query = e.target.value;
     dispatch(changeFilter(query));
-    console.log(query);
   };
 
   return (
-    <FilterWraper>
-      <LabelFilter htmlFor="filter">Find contacts by name</LabelFilter>
-      <InputForm type="text" name="filter" onChange={hanleChangeFilter} />
-    </FilterWraper>
+    <>
+      <Typography variant="h5" sx={{ color: 'primary.main' }} marginBottom={2}>
+        Find contacts by name
+      </Typography>
+      <Box
+        sx={{
+          display: 'flex',
+          alignItems: 'flex-end',
+          width: '280px',
+          marginBottom: '8px',
+        }}
+      >
+        <PersonSearchIcon sx={{ color: '#1976d2', mr: 1, my: 0.5 }} />
+        <TextField
+          id="filter"
+          label="Find contacts by name"
+          variant="standard"
+          type="text"
+          placeholder="Enter name"
+          onChange={handleChangeFilter}
+          sx={{ m: 1, width: '25ch' }}
+        />
+      </Box>
+    </>
   );
 };
 

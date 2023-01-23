@@ -1,10 +1,10 @@
 import { createTheme } from '@mui/material/styles';
-import { amber } from '@mui/material/colors';
+import { brown } from '@mui/material/colors';
 
 export const BgHeader = createTheme({
   palette: {
     primary: {
-      main: amber[300],
+      main: brown[100],
     },
   },
 });

@@ -20,10 +20,6 @@ export default function Register() {
           position="relative"
           sx={{
             margin: '0 auto',
-            // backgroundImage:
-            // location.pathname === '/contacts'
-            //   ? 'linear-gradient(#C9D6FF,#E2E2E2)'
-            //   : `url(${RegistrationImage})`,
             backgroundImage: `url(${RegistrationImage})`,
             minHeight: '100vh',
             backgroundSize: 'cover',
@@ -32,7 +28,6 @@ export default function Register() {
           }}
         >
           <Box
-            component="form"
             position="absolute"
             sx={{
               top: '20%',

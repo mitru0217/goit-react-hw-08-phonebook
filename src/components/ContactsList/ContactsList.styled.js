@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const TitleList = styled.h2`
+export const TitleList = styled.h1`
   margin: 0;
   margin-top: 15px;
   padding: 10px;

@@ -3,19 +3,16 @@ import toast from 'react-hot-toast';
 import { useDispatch, useSelector } from 'react-redux';
 import { getContacts } from '../../redux/Contacts/selectors';
 import { addContact } from 'redux/Contacts/operations';
+import CssBaseline from '@mui/material/CssBaseline';
 import {
-  ContactsForm,
-  LabelInput,
-  Thumb,
-  Icon,
-  ContactsInput,
-  ContactsBtn,
-} from 'components/ContactForm/ContactForm.styled';
-import {
-  BsFillPersonFill,
-  BsFillTelephoneFill,
-  // BsPhoneLandscape,
-} from 'react-icons/bs';
+  Container,
+  Box,
+  // Typography,
+  TextField,
+  Button,
+} from '@mui/material';
+import { ContactsForm } from 'components/ContactForm/ContactForm.styled';
+import { Person, Phone } from '@mui/icons-material';
 
 export default function ContactForm() {
   const [name, setName] = useState('');
@@ -51,7 +48,7 @@ export default function ContactForm() {
     );
     if (findNameIndex < 0) {
       dispatch(addContact(contactNew));
-      toast.success(`${contactNew.name} added to contacts`, { duration: 500 });
+      toast.success(`${contactNew.name} added to contacts`, { duration: 2000 });
     } else {
       toast.error(`${contactNew.name} is already in contacts`, {
         duration: 2000,
@@ -65,49 +62,62 @@ export default function ContactForm() {
   };
 
   return (
-    <ContactsForm onSubmit={handleSubmit}>
-      <LabelInput>
-        Name
-        <Thumb>
-          <Icon>
-            <BsFillPersonFill size={20} />
-          </Icon>
-          <ContactsInput
-            type="text"
+    <Container maxWidth="md">
+      <CssBaseline />
+
+      <ContactsForm onSubmit={handleSubmit}>
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'flex-end',
+            width: '280px',
+            marginBottom: '8px',
+          }}
+        >
+          <Person sx={{ color: '#1976d2', mr: 1, my: 0.5 }} />
+          <TextField
+            id="name"
+            label="Name"
+            variant="standard"
             name="name"
-            value={name}
+            type="text"
             pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
             title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
             required
-            placeholder="Enter your full name"
+            value={name}
+            placeholder="Enter name"
             onChange={handleChange}
+            sx={{ m: 1, width: '25ch' }}
           />
-        </Thumb>
-      </LabelInput>
-
-      <LabelInput>
-        Number
-        <Thumb>
-          <Icon>
-            <BsFillTelephoneFill size={15} />
-          </Icon>
-          <ContactsInput
-            className="ContactsInput"
-            type="tel"
+        </Box>
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'flex-end',
+            width: '280px',
+            marginBottom: '8px',
+          }}
+        >
+          <Phone sx={{ color: '#1976d2', mr: 1, my: 0.5 }} />
+          <TextField
+            id="number"
+            label="Number"
+            variant="standard"
             name="number"
+            type="tel"
             value={number}
             pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
             title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
             required
-            placeholder="Enter your phone number"
+            placeholder="Enter phone number"
             onChange={handleChange}
+            sx={{ m: 1, width: '25ch' }}
           />
-        </Thumb>
-      </LabelInput>
-
-      <ContactsBtn type="submit" className="ContactsBtn">
-        Add contact
-      </ContactsBtn>
-    </ContactsForm>
+        </Box>
+        <Button type="submit" variant="contained">
+          Add Contact
+        </Button>
+      </ContactsForm>
+    </Container>
   );
 }
