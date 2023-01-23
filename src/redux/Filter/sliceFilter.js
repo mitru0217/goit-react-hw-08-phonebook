@@ -7,13 +7,13 @@ export const filterSlice = createSlice({
   name: 'filter',
   initialState: filterinitialState,
   reducers: {
-    changeFilter(_, action) {
-      return action.payload;
+    changeFilter(state, action) {
+      state.value = action.payload;
     },
   },
   extraReducers: builder => {
     builder.addCase(logOut.fulfilled, state => {
-      state.initialState = '';
+      state.value = '';
     });
   },
 });

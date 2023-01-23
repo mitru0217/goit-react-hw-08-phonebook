@@ -10,6 +10,7 @@ const Filter = () => {
   const handleChangeFilter = e => {
     const query = e.target.value;
     dispatch(changeFilter(query));
+    console.log(query);
   };
 
   return (

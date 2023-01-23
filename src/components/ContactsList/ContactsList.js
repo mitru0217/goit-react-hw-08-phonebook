@@ -19,9 +19,10 @@ const ContactsList = () => {
   }, [dispatch]);
 
   const visibleContacts = contacts.filter(contact =>
-    contact.name.toLowerCase().includes(filter.toLowerCase().trim())
+    contact.name.toLowerCase().includes(filter)
   );
-
+  console.log(visibleContacts);
+  console.log(filter);
   return (
     <>
       {isLoading && !error && <b>Request in progress...</b>}
